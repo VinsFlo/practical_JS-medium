@@ -50,13 +50,13 @@ const modals = () => {
 			let display;
 
 			document.querySelectorAll('[data-modal]').forEach(item => {
-				if (getComputedStyle(item).display !== 'none') {
+				if (getComputedStyle(item).display !== 'none') { //Если у нас модальное окно, которое сейчас перебирается будет показано пользователю, то ...
 					display = "block";
 				}
 			});
 
 			if (!display) {
-				document.querySelector(selector).style.display = 'block';
+				document.querySelector(selector).style.display = 'block'; //Если у нас ни одно модальное окно не показывается, мы показываем то, что нам нужно
 				document.body.style.overflow = "hidden";
 			}
 		}, time);
