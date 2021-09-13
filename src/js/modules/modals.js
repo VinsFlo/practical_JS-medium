@@ -58,6 +58,8 @@ const modals = () => {
 			if (!display) {
 				document.querySelector(selector).style.display = 'block'; //Если у нас ни одно модальное окно не показывается, мы показываем то, что нам нужно
 				document.body.style.overflow = "hidden";
+				let scroll = calcScroll();
+				document.body.style.marginRight = `${scroll}px`;
 			}
 		}, time);
 	}
