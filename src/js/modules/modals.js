@@ -1,5 +1,7 @@
 const modals = () => {
-	function bindModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
+	let btnPressed = false;
+
+	function bindModal(triggerSelector, modalSelector, closeSelector, destroy = false) {
 		const trigger = document.querySelectorAll(triggerSelector),
 			modal = document.querySelector(modalSelector),
 			close = document.querySelector(closeSelector),
@@ -12,8 +14,15 @@ const modals = () => {
 					e.preventDefault();
 				}
 
+				btnPressed = true;
+
+				if (destroy) {
+					item.remove();
+				}
+
 				windows.forEach(item => {
 					item.style.display = 'none';
+
 				});
 
 				modal.style.display = "block";
@@ -33,7 +42,7 @@ const modals = () => {
 		});
 
 		modal.addEventListener('click', (e) => {
-			if (e.target === modal && closeClickOverlay) {
+			if (e.target === modal) {
 				windows.forEach(item => {
 					item.style.display = 'none';
 				});
@@ -79,10 +88,20 @@ const modals = () => {
 		return scrollWidth;
 	}
 
+	function openByScroll(selector) {
+		window.addEventListener('scroll', () => {
+			let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight); //под старые браузеры
+
+			if (!btnPressed && (window.pageYOffset + document.documentElement.clientHeight >= scrollHeight)) { //Сравниваем сумму с полной высотой страницы, так мы вычисляемЮ долистал ли пользователь до конца
+				document.querySelector(selector).click(); //событие вызвано вручную
+			}
+		});
+	}
+
 	bindModal('.button-design', '.popup-design', '.popup-design .popup-close');
 	bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close');
-
-	showModalByTime('.popup-consultation', 5000);
+	bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true);
+	openByScroll('.fixed-gift');
 };
 
 export default modals;
