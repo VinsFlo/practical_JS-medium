@@ -1,3 +1,5 @@
+import { postData } from './services/requests';
+
 const forms = () => {
 	const form = document.querySelectorAll('form'),
 		inputs = document.querySelectorAll('input'),
@@ -8,23 +10,16 @@ const forms = () => {
 		success: 'Спасибо! Скоро мы с вами свяжемся',
 		failure: 'Что-то пошло не так...',
 		spinner: 'assets/img/spinner.gif',
-		ok: 'assets/img/ok.png',
-		fail: 'assets/img/fail.png'
+		ok: 'src/assets/img/ok.png',
+		fail: 'src/assets/img/fail.png'
 	};
 
-	const path = {      //пути отправки
-		designer: 'assets/server.php',
-		question: 'assets/question.php'
+	const path = {
+		designer: 'src/assets/server.php',
+		question: 'src/assets/question.php'
 	};
 
-	const postData = async (url, data) => {
-		let res = await fetch(url, {
-			method: "POST",
-			body: data
-		});
 
-		return await res.text();
-	};
 
 	const clearInputs = () => {
 		inputs.forEach(item => {
@@ -53,11 +48,11 @@ const forms = () => {
 
 			let statusMessage = document.createElement('div');
 			statusMessage.classList.add('status');
-			item.parentNode.appendChild(statusMessage); //дополнительный блок, в котором размещается изображние, помещается в родителя формы
+			item.parentNode.appendChild(statusMessage);
 
 			item.classList.add('animated', 'fadeOutUp');
 			setTimeout(() => {
-				item.style.display = 'none'; //чтобы форма исчезла со страницы и не занимала физического места
+				item.style.display = 'none';
 			}, 400);
 
 			let statusImg = document.createElement('img');
@@ -70,7 +65,7 @@ const forms = () => {
 			statusMessage.appendChild(textMessage);
 
 			const formData = new FormData(item);
-			let api; //динамический путь отправки форм
+			let api;
 			item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question;
 			console.log(api);
 
